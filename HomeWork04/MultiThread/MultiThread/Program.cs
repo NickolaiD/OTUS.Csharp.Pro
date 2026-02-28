@@ -6,41 +6,46 @@ namespace MultiThread
     {
         static void Main(string[] args)
         {
-            int size = 10000000;
-            int[] array = new int[size];
-            Random random = new Random();
+            int[] sizes = new int[] { 100000, 1000000, 10000000};
 
-            for (int i = 0; i < size; i++)
+            foreach (var size in sizes)
             {
-                array[i] = random.Next(0, 10);
+                Console.WriteLine($"Количество элементов - {size}");
+                int[] array = new int[size];
+                Random random = new Random();
+
+                for (int i = 0; i < size; i++)
+                {
+                    array[i] = random.Next(0, 10);
+                }
+
+                var sw = new Stopwatch();
+                Simple(array, sw);
+                ThreadCalculate(array, sw);
+                Plinq(array, sw);
+                Console.WriteLine();
             }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            Simple(ref array);
-
-            sw.Stop();
-            Console.WriteLine($"{sw.ElapsedMilliseconds}");
-
-            var res = ThreadCalculate(array);
-            Console.WriteLine($"{res}");
         }
 
-        static void Simple(ref int[] array)
+        static void Simple(int[] array, Stopwatch sw)
         {
-            int sum = 0;
+            sw.Reset();
+            sw.Start();
+
+            long sum = 0;
             for (int i = 0; i < array.Length; i++)
             {
                 sum += array[i];
             }
+            sw.Stop();
 
-            Console.WriteLine($"{sum}");
+            Console.WriteLine($"Простой обход - сумма {sum}, время {sw.ElapsedMilliseconds}");
+            
         }
 
-        static long ThreadCalculate(int[] array)
+        static void ThreadCalculate(int[] array, Stopwatch sw)
         {
-            var sw = new Stopwatch();
+            sw.Reset();
             sw.Start();
 
             var m = array.Length - 1;
@@ -48,7 +53,7 @@ namespace MultiThread
             long chunkSize = (m + 1L) / cores;
 
             var threads = new List<Thread>(cores);
-            long total = 0;
+            long sum = 0;
             object lockObj = new();
 
             for (int i = 0; i < cores; i++)
@@ -62,7 +67,7 @@ namespace MultiThread
                     for (int num = start; num <= end; num++)
                       localSum += array[num];
 
-                    lock (lockObj) { total += localSum; }
+                    lock (lockObj) { sum += localSum; }
                 });
 
                 threads.Add(t);
@@ -71,9 +76,18 @@ namespace MultiThread
 
             foreach (Thread t in threads) t.Join();
             sw.Stop();
-            Console.WriteLine($"{sw.ElapsedMilliseconds}");
-      
-            return total;
+
+            Console.WriteLine($"Thread - сумма {sum}, время {sw.ElapsedMilliseconds}");
+        }
+
+        static void Plinq(int[] array, Stopwatch sw)
+        {
+            sw.Reset();
+            sw.Start();
+            long sum = array.AsParallel().Sum();
+            sw.Stop();
+
+            Console.WriteLine($"PLINQ - сумма {sum}, время {sw.ElapsedMilliseconds}");
         }
     }
 }
