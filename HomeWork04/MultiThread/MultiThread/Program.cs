@@ -32,7 +32,7 @@ namespace MultiThread
             sw.Reset();
             sw.Start();
 
-            long sum = 0;
+            int sum = 0;
             for (int i = 0; i < array.Length; i++)
             {
                 sum += array[i];
@@ -53,7 +53,7 @@ namespace MultiThread
             long chunkSize = (m + 1L) / cores;
 
             var threads = new List<Thread>(cores);
-            long sum = 0;
+            int sum = 0;
             object lockObj = new();
 
             for (int i = 0; i < cores; i++)
@@ -63,7 +63,7 @@ namespace MultiThread
 
                 Thread t = new(() =>
                 {
-                    long localSum = 0;
+                    int localSum = 0;
                     for (int num = start; num <= end; num++)
                       localSum += array[num];
 
