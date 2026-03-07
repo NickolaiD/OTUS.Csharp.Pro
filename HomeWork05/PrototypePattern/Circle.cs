@@ -16,7 +16,6 @@ namespace PrototypePattern
 
         public override Shape MyClone()
         {
-            // Поверхностное копирование (для значимых типов достаточно)
             return new Circle(Color, X, Y, Radius);
         }
 
@@ -30,5 +29,9 @@ namespace PrototypePattern
             return base.GetInfo() + $", Радиус: {Radius}";
         }
 
+        public override object Clone()
+        {
+            return new Circle(Color, X, Y, Radius);
+        }
     }
 }

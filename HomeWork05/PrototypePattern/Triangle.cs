@@ -33,5 +33,11 @@ namespace PrototypePattern
         {
             return base.GetInfo() + $", Стороны: {SideA}, {SideB}, {SideC}";
         }
+
+        public override object Clone()
+        {
+            return (new Triangle(Color, X, Y, SideA, SideB, SideC));
+            
+        }
     }
 }
