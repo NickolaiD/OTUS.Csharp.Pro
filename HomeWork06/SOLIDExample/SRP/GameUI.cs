@@ -18,5 +18,10 @@ namespace SOLIDExample
                 Console.WriteLine("Ошибка! Повторите ввод числа");
             }
         }
+
+        public void ShowMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
     }
 }

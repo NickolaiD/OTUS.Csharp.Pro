@@ -26,23 +26,22 @@ namespace SOLIDExample
             }
 
             var randomNumber = _random.Next(min, max);
-            int userNumber = 0;
             var win = false;
 
             for (int i = 0; i < retryCount && !win; i++)
             {
-                userNumber = _gameUI.GetNumberFromUser();
+                var userNumber = _gameUI.GetNumberFromUser();
                 var result = _gameLogic.Check(userNumber, randomNumber);
                 switch (result)
                 {
                     case Result.lower:
-                        Console.WriteLine("Меньше");
+                        _gameUI.ShowMessage("Меньше");
                         break;
                     case Result.upper:
-                        Console.WriteLine("Больше");
+                        _gameUI.ShowMessage("Больше");
                         break;
                     case Result.win:
-                        Console.WriteLine("Верно!");
+                        _gameUI.ShowMessage("Верно!");
                         win = true;
                         break;
                 }
@@ -50,7 +49,7 @@ namespace SOLIDExample
 
             if (!win)
             {
-                Console.WriteLine($"Вы проиграли, загаданное число {randomNumber}");
+                _gameUI.ShowMessage($"Вы проиграли, загаданное число {randomNumber}");
             }
 
         }
