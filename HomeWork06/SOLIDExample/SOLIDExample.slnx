@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="DIP/DIP.csproj" />
+  <Project Path="ISP/ISP.csproj" />
   <Project Path="SRP/SRP.csproj" />
 </Solution>
