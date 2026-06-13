@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SRP
+namespace DIP
 {
-    public class GameLogic
+    public class GameLogic : IGameLogic
     {
         public Result Check(int userInput, int numberToCheck)
         {

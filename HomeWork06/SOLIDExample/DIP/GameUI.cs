@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SRP
+namespace DIP
 {
-    public class GameUI
+    public class GameUI : IGameUI
     {
         public int GetNumberFromUser()
         {

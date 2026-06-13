@@ -1,4 +1,4 @@
-﻿namespace SRP
+﻿namespace DIP
 {
     internal class Program
     {

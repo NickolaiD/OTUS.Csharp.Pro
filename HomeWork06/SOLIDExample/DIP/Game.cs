@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SRP
+namespace DIP
 {
     public class Game
     {
-        private readonly GameLogic _gameLogic;
-        private readonly GameUI _gameUI;
+        private readonly IGameLogic _gameLogic;
+        private readonly IGameUI _gameUI;
         private readonly Random _random;
 
-        public Game(GameLogic gameLogic, GameUI gameUI, Random random)
+        public Game(IGameLogic gameLogic, IGameUI gameUI, Random random)
         {
             _gameLogic = gameLogic;
             _gameUI = gameUI;
