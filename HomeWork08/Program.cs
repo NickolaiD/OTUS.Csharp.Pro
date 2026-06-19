@@ -19,6 +19,16 @@
                 Console.WriteLine($"Самый старший: {oldest.Name} {oldest.Age}");
             }
 
+            var traverser = new DirectoryTraverser();
+            var files = traverser.GetFiles(@"C:\Temp");
+
+            foreach (string file in files)
+            {
+                Console.WriteLine(file);
+            }
+
+            Console.WriteLine($"Всего файлов: {files.Count}");
+
         }
     }
 }
