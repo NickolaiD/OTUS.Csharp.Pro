@@ -4,19 +4,27 @@ using System.Text;
 
 namespace HomeWork08
 {
-    public delegate void OnFileFound(object sender, OnFileFoundEventArgs e);
+    public delegate void EventHandler(object sender, FileArgs e);
     public class DirectoryTraverser
     {
-        public event OnFileFound OnFileFound;
+        public event EventHandler? FileFound;
+        private bool _stopWork;
         public List<string> GetFiles(string rootPath)
         {
             var files = new List<string>();
+
             GetFilesRecursive(rootPath, files);
             return files;
         }
 
         private void GetFilesRecursive(string path, List<string> files)
         {
+            if (_stopWork)
+            {
+                return;
+            }
+
+            FileFound += (s, e) => { };
             try
             {
                 string[] dirs = Directory.GetDirectories(path);
@@ -29,17 +37,17 @@ namespace HomeWork08
                 foreach (string file in currentFiles)
                 {
                     files.Add(file);
-                    OnFileFound(this, new OnFileFoundEventArgs() { Message = "Найден файл" });
+                    var fileArgs = new FileArgs() { Message = $"Найден файл {file}" };
+                    FileFound(this, fileArgs);
+                    if (fileArgs.StopWork)
+                    {
+                        _stopWork = true;  // возможность отмены дальнейшего поиска
+                    }
                 }
             }
             catch
             {
             }
         }
-    }
-
-    public class OnFileFoundEventArgs : EventArgs
-    {
-        public string Message { get; set; } = string.Empty;
     }
 }
